@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <input type="submit" value="Create">
+  </form>
+  <script>
+    $(document).ready(function() {
+        jQuery('#datetimepicker').datetimepicker({
+          format: 'Y-m-d H:i:s'
+        });
+    });
+  </script>
+{% endblock %}

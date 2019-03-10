@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>LIST OF EVENTS:</h1>
+  <div class="container">
+    <ol>
+      {% for event in object_list %}
+        <li>
+          <p>
+            {% if user == event.owner %}
+              <a class="btn btn-md btn-warning btn-fill" href="{% url 'main_app:edit_event' pk=event.id %}">
+                <span>Edit</span>
+              </a>
+            {% endif %}
+            Event: {{event.title}}
+            {% if user.is_authenticated %}
+              {% if user != event.owner %}
+                {% if not user in event.incoming_participants.all%}
+                  <a class="btn btn-primary" href="{% url 'main_app:join_event' event_id=event.id %}">Join</a>
+                {% else %}
+                  <a class="btn btn-danger" href="{% url 'main_app:leave_event' event_id=event.id %}">Leave</a>
+                {% endif %}
+              {% endif%}
+            {% endif %}
+          </p>
+          <p>Date of event: {{event.date}}</p>
+          <p>Amount of participants: {{event.incoming_participants.count}}</p>
+          <small>event created by <strong>{{event.owner}}</strong></small>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+{% endblock %}
